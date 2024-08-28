@@ -3,7 +3,7 @@
 - [x] create input Form Field using conform/nextjs and zod
 - [x] create api routs for example generation,context generation,detail prompt generation.
 - [x] card to show the generated prompt
-- [ ] toast funcitonality
+- [x] toast funcitonality
 - [x] add copy to clipboard button
 - [x] change app metadata and app icon
 - [x] add github actions for ci/cd pipeline
