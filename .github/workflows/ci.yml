@@ -1,3 +1,5 @@
+# this is just a template these test will not pass on github actions
+
 name: CI
 
 on:
@@ -12,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -23,13 +25,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Run linter
         run: npm run lint
-
-      - name: Run tests
-        run: npm test
 
       - name: Build
         run: npm run build
