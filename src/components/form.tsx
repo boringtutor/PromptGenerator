@@ -6,15 +6,13 @@ import {
   useForm,
   getFormProps,
   getInputProps,
-  getFieldsetProps,
   SubmissionResult,
 } from "@conform-to/react";
-import React, { useEffect, useId, useState } from "react";
-import { generatePromptAction } from "@/app/actions";
+import React, { useEffect, useId } from "react";
+import { promptaction } from "@/app/actions";
 import { parseWithZod } from "@conform-to/zod";
 import { PromptSchema } from "@/app/schema";
 import { Textarea } from "./ui/textarea";
-import { ButtonStatus } from "@/lib/types";
 
 export type ListOfErrors = Array<string | null | undefined> | null | undefined;
 
@@ -86,10 +84,7 @@ export default function PromptInputForm({
 }: {
   setGeneratePrompt: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) {
-  const [lastResult, action] = useFormState<
-    | SubmissionResult<string[]>
-    | { status: "success" | "error"; response: string; prompt: string }
-  >(generatePromptAction, undefined);
+  const [lastResult, action] = useFormState(promptaction, undefined);
   const [form, fields] = useForm({
     // Sync the result of last submission
     lastResult,
@@ -99,13 +94,14 @@ export default function PromptInputForm({
     },
     // Validate the form on blur event triggered
     shouldValidate: "onBlur",
+    shouldRevalidate: "onInput",
   });
 
   useEffect(() => {
     if (lastResult?.status === "success" && "response" in lastResult) {
       setGeneratePrompt(lastResult.response);
     }
-  }, [lastResult]);
+  }, [lastResult, setGeneratePrompt]);
   return (
     <form action={action} {...getFormProps(form)}>
       <div>
