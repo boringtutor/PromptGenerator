@@ -3,8 +3,9 @@
 - [x] create input Form Field using conform/nextjs and zod
 - [x] create api routs for example generation,context generation,detail prompt generation.
 - [x] card to show the generated prompt
-- [ ] add copy to clipboard button
-- [ ] add github actions for ci/cd pipeline
+- [ ] toast funcitonality
+- [x] add copy to clipboard button
+- [x] add github actions for ci/cd pipeline
 - [ ] add docker support
 - [ ] add dashboard for managing everythig
 - [ ] add prompt validation by implementing the rating system. from users perspective.
