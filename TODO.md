@@ -1,9 +1,8 @@
 ** free version just for open source **
 
-- [ ] create input Form Field using conform/nextjs and zod
-- [ ] create api routs for example generation,context generation,detail prompt generation.
-- [ ] add rate limiting
-- [ ] card to show the generated prompt
+- [x] create input Form Field using conform/nextjs and zod
+- [x] create api routs for example generation,context generation,detail prompt generation.
+- [x] card to show the generated prompt
 - [ ] add copy to clipboard button
 - [ ] add github actions for ci/cd pipeline
 - [ ] add docker support
@@ -15,6 +14,7 @@
 - [ ] put this in production in vercel.
 - [ ] rate limiting
 - [ ] add analytics
+- [ ] honeypot
 - [ ] add health check endpoint
 - [ ] add auth (clerk)
 - [ ] add dashboard for managing everythig
