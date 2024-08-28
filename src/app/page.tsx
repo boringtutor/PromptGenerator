@@ -9,21 +9,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
 import { Button } from "@/components/ui/button";
 import { CopyToClipBoard } from "@/components/ui/copyToClipBoard";
+import { toast } from "@/components/ui/use-toast";
+import { showToast } from "@/lib/utils";
+
 export default function Home() {
   const [generatePrompt, setGeneratePrompt] = useState<string | undefined>(
     undefined
   );
+
   useEffect(() => {
     console.log(generatePrompt);
-    document
-      .getElementById("custom-generated-prompt")
-      ?.scrollIntoView({ behavior: "smooth" });
+    if (generatePrompt !== null) {
+      showToast();
+      document
+        .getElementById("custom-generated-prompt")
+        ?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [generatePrompt]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center w-full ">
+    <main className="flex min-h-screen flex-col items-center w-full relative ">
       <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-primary to-primary-foreground">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center space-y-4 text-center">
@@ -39,13 +46,12 @@ export default function Home() {
             </div>
             <div className="space-x-4">
               <Button
-                // className="bg-white text-primary hover:bg-zinc-200"
                 className="hover:bg-white hover:text-primary hover:border-primary hover:border-2"
-                onClick={() =>
+                onClick={() => {
                   document
                     .getElementById("prompt-generator")
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
                 Get Started
                 <svg

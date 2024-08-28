@@ -1,3 +1,4 @@
+import { toast } from "@/components/ui/use-toast";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -46,3 +47,17 @@ export function getErrorMessage(error: unknown) {
 
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export function showToast({
+  title = "Prompt Generated Successfully",
+  description = "Check out your prompt below!",
+}: {
+  title?: string;
+  description?: string;
+} = {}) {
+  // Default to an empty object
+  toast({
+    title: title,
+    description: description,
+  });
+}

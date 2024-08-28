@@ -5,6 +5,7 @@
 - [x] card to show the generated prompt
 - [ ] toast funcitonality
 - [x] add copy to clipboard button
+- [x] change app metadata and app icon
 - [x] add github actions for ci/cd pipeline
 - [ ] add docker support
 - [ ] add dashboard for managing everythig
