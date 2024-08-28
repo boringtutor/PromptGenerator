@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AI Prompt Generator
+
+AI Prompt Generator is an open-source tool designed to help users create detailed and context-rich prompts for AI models. This project aims to streamline the process of generating high-quality prompts by providing examples, context, and additional details based on a given topic.
+
+## Features
+
+- Input form for entering initial prompt topics
+- Generation of examples related to the given topic
+- Context generation to provide background information
+- Detailed prompt creation combining examples, context, and the original topic
+- Responsive UI with error handling and loading states
+- Copy to clipboard functionality (coming soon)
+
+## Technologies Used
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Conform
+- Zod
+- TanStack Query (React Query)
+- clsx
+- cva (Class Variance Authority)
+- React Toastify
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (v14 or later)
+- npm or yarn
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```
+   git clone https://github.com/boringtutor/PromptGenerator.git
+   ```
 
-## Learn More
+2. Navigate to the project directory:
 
-To learn more about Next.js, take a look at the following resources:
+   ```
+   cd PromptGenerator
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Install dependencies:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   ```
+   npm install
+   ```
 
-## Deploy on Vercel
+   or
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```
+   yarn install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+4. Start the development server:
+
+   ```
+   npm run dev
+   ```
+
+   or
+
+   ```
+   yarn dev
+   ```
+
+5. Open your browser and visit `http://localhost:3000`
+
+## Usage
+
+1. Enter a topic or initial prompt in the input field.
+2. Click the "Generate Prompt" button.
+3. Wait for the AI to generate examples, context, and a detailed prompt.
+4. The generated prompt will be displayed in a card format.
+5. (Coming soon) Use the copy to clipboard button to easily copy the generated prompt.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Thanks to all the open-source libraries and tools used in this project.
+- Inspired by the need for better AI prompt generation in the community.
+
+## Roadmap
+
+- [ ] Add copy to clipboard button
+- [ ] Implement GitHub Actions for CI/CD pipeline
+- [ ] Add Docker support
+- [ ] Create a dashboard for managing everything
+- [ ] Implement a rating system for prompt validation
+- [ ] Develop a paid version with additional features (auth, analytics, etc.)
+
+## Contact
+
+Email :[boringtutor@gmail.com](boringtutor@gmail.com)
+
+Project Link: [https://github.com/boringtutor/PromptGenerator](https://github.com/boringtutor/PromptGenerator)
