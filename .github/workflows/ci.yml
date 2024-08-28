@@ -29,6 +29,15 @@ jobs:
 
       - name: Run linter
         run: npm run lint
+      - name: Set up OpenAI API and project details
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
+        run: |
+          echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> $GITHUB_ENV
+          echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
+          echo "ORGANIZATION_ID=$ORGANIZATION_ID" >> $GITHUB_ENV
 
       - name: Build
         run: npm run build
