@@ -7,6 +7,7 @@
 - [x] add copy to clipboard button
 - [x] change app metadata and app icon
 - [x] add github actions for ci/cd pipeline
+- [x] fix the json api issues
 - [ ] add docker support
 - [ ] add dashboard for managing everythig
 - [ ] add prompt validation by implementing the rating system. from users perspective.

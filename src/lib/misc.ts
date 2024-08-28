@@ -1,5 +1,3 @@
-import { sleep } from "./utils"; // Assuming you have a sleep function in utils
-
 export async function generateExample(topic: string): Promise<string> {
   try {
     const response = await fetch("http://localhost:3000/api/genexample", {

@@ -18,6 +18,7 @@ export default function Home() {
   const [generatePrompt, setGeneratePrompt] = useState<string | undefined>(
     undefined
   );
+  const [feedback, setFeedback] = useState<string | null>(null);
 
   useEffect(() => {
     console.log(generatePrompt);
@@ -28,6 +29,19 @@ export default function Home() {
         ?.scrollIntoView({ behavior: "smooth" });
     }
   }, [generatePrompt]);
+
+  const handleFeedback = (isUseful: boolean) => {
+    if (isUseful) {
+      showToast({
+        title: "Glad you found it useful!",
+        description:
+          "We're glad you found the prompt useful. Your feedback helps us improve our service.",
+      });
+    } else {
+      // setGeneratePrompt(undefined);
+      // setFeedback(null);
+    }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center w-full relative ">
@@ -99,18 +113,23 @@ export default function Home() {
           <h3 className="text-lg font-semibold mb-2">
             Generated Detailed Prompt:
           </h3>
-          <p className="whitespace-pre-wrap">{generatePrompt}</p>
+          <p
+            className="whitespace-pre-wrap"
+            dangerouslySetInnerHTML={{ __html: formatPrompt(generatePrompt) }}
+          >
+            {generatePrompt}
+          </p>
         </div>
       )}
     </main>
   );
 }
 
-// function formatPrompt(prompt: string): string {
-//   return prompt
-//     .replace(/\n\n/g, "<br/><br/>")
-//     .replace(/\n/g, "<br/>")
-//     .replace(/(Prompt:)/g, "<strong>$1</strong>")
-//     .replace(/(Your response should:)/g, "<strong>$1</strong>")
-//     .replace(/(\d+\.)/g, "<br/><strong>$1</strong>");
-// }
+function formatPrompt(prompt: string): string {
+  return prompt
+    .replace(/\n\n/g, "<br/><br/>")
+    .replace(/\n/g, "<br/>")
+    .replace(/(Prompt:)/g, "<strong>$1</strong>")
+    .replace(/(Your response should:)/g, "<strong>$1</strong>")
+    .replace(/(\d+\.)/g, "<br/><strong>$1</strong>");
+}
