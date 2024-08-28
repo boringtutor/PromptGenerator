@@ -2,18 +2,14 @@
 
 import { useFormState, useFormStatus } from "react-dom";
 import { Button } from "./ui/button";
-import {
-  useForm,
-  getFormProps,
-  getInputProps,
-  SubmissionResult,
-} from "@conform-to/react";
-import React, { useEffect, useId } from "react";
+import { useForm, getFormProps, getInputProps } from "@conform-to/react";
+import React, { useEffect, useId, useState } from "react";
 import { promptaction } from "@/app/actions";
 import { parseWithZod } from "@conform-to/zod";
 import { PromptSchema } from "@/app/schema";
 import { Textarea } from "./ui/textarea";
-
+import { ButtonStatus } from "@/lib/types";
+import { StatusButton } from "./ui/statusButton";
 export type ListOfErrors = Array<string | null | undefined> | null | undefined;
 
 export function ErrorList({
@@ -37,7 +33,6 @@ export function ErrorList({
 }
 
 export function TextareaField({
-  labelProps,
   textareaProps,
   errors,
   className,
@@ -65,17 +60,35 @@ export function TextareaField({
   );
 }
 
-function FormButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+function FormButton({
+  status,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { status: ButtonStatus }) {
   const { pending } = useFormStatus();
-
   return (
-    <Button
-      className="mt-6 flex justify-center w-full"
-      {...props}
-      disabled={pending || props.disabled}
-    >
-      {pending ? "Generating Prompt..." : props.children}
-    </Button>
+    <>
+      {pending ? (
+        <StatusButton status="pending" className="flex w-full" disabled>
+          Generating Prompt please wait...
+        </StatusButton>
+      ) : status === "success" ? (
+        <StatusButton status="success" className="flex w-full">
+          Generated Prompt Successfully
+        </StatusButton>
+      ) : (
+        <>
+          {status === "error" ? (
+            <StatusButton status="error" className="flex w-full">
+              Error Generating Prompt
+            </StatusButton>
+          ) : (
+            <StatusButton status="idle" className="flex w-full">
+              Generate Prompt
+            </StatusButton>
+          )}
+        </>
+      )}
+    </>
   );
 }
 
@@ -96,24 +109,53 @@ export default function PromptInputForm({
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
+  const [status, setStatus] = useState<ButtonStatus>("idle");
 
   useEffect(() => {
     if (lastResult?.status === "success" && "response" in lastResult) {
       setGeneratePrompt(lastResult.response);
+      setStatus("success");
+    }
+    if (lastResult?.status === "error") {
+      setStatus("error");
     }
   }, [lastResult, setGeneratePrompt]);
+
+  useEffect(() => {
+    if (fields.prompt.value) {
+      setStatus("idle");
+    }
+  }, [fields.prompt.value]);
+
   return (
     <form action={action} {...getFormProps(form)}>
-      <div>
+      <div className="space-y-2 mb-4">
+        <label
+          htmlFor="user-input"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          Enter your initial prompt:
+        </label>
         <TextareaField
-          className="w-[800px] "
+          className="flex min-w-full md:min-w-[400px] lg:min-w-[600px] xl:min-w-[600px]
+          "
           labelProps={{ htmlFor: "prompt" }}
           textareaProps={{ id: "prompt", name: "prompt" }}
           {...getInputProps(fields.prompt, { type: "text" })}
           errors={fields.prompt.errors}
         />
       </div>
-      <FormButton>Generate Prompt</FormButton>
+      {status === "error" ? (
+        <FormButton status="error" />
+      ) : (
+        <>
+          {status === "success" ? (
+            <FormButton status="success" />
+          ) : (
+            <FormButton status="idle" />
+          )}
+        </>
+      )}
       <div></div>
     </form>
   );
