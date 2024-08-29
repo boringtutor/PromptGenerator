@@ -9,6 +9,7 @@ import { Button, ButtonProps } from "./button";
 import { cn } from "@/lib/utils";
 import { useSpinDelay } from "spin-delay";
 import { ButtonStatus } from "@/lib/types";
+import { CheckCircle2, Wand2 } from "lucide-react";
 
 export const StatusButton = React.forwardRef<
   HTMLButtonElement,
@@ -25,40 +26,12 @@ export const StatusButton = React.forwardRef<
   });
   const companion = {
     pending: delayedPending ? (
-      <div className="inline-flex h-6 w-6 items-center justify-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          className="text-white animate-spin"
-        >
-          <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-        </svg>
-      </div>
+      <Wand2 className="mr-2 h-4 w-4 animate-spin" />
     ) : null,
     success: (
-      <div className="inline-flex h-6 w-6 items-center justify-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          className="text-white bg-green-600 rounded-full "
-        >
-          <path d="M20 6 9 17l-5-5" />
-        </svg>
-      </div>
+      <>
+        <CheckCircle2 className="mr-2 h-4 w-4" />
+      </>
     ),
     error: (
       <div className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-destructive">
@@ -79,7 +52,7 @@ export const StatusButton = React.forwardRef<
         </svg>
       </div>
     ),
-    idle: null,
+    idle: <Wand2 className="mr-2 h-4 w-4" />,
   }[status];
 
   return (

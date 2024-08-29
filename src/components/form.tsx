@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
@@ -32,10 +34,12 @@ export function ErrorList({
 }
 
 export function TextareaField({
+  ref,
   textareaProps,
   errors,
   className,
 }: {
+  ref: React.RefObject<HTMLTextAreaElement>;
   labelProps: React.LabelHTMLAttributes<HTMLLabelElement>;
   textareaProps: React.TextareaHTMLAttributes<HTMLTextAreaElement>;
   errors?: ListOfErrors;
@@ -45,9 +49,13 @@ export function TextareaField({
   const id = textareaProps.id ?? textareaProps.name ?? fallbackId;
   const errorId = errors?.length ? `${id}-error` : undefined;
   return (
-    <div className={className}>
+    <div className="flex flex-col gap-2">
       <Textarea
+        ref={ref}
         id={id}
+        placeholder="Enter your initial prompt here..."
+        className="mb-4 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+        rows={4}
         aria-invalid={errorId ? true : undefined}
         aria-describedby={errorId}
         {...textareaProps}
@@ -67,22 +75,35 @@ function FormButton({
   return (
     <>
       {pending ? (
-        <StatusButton status="pending" className="flex w-full" disabled>
-          Generating Prompt please wait...
+        <StatusButton
+          status="pending"
+          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-200"
+          disabled
+        >
+          Generating... This may take a while.
         </StatusButton>
       ) : status === "success" ? (
-        <StatusButton status="success" className="flex w-full">
-          Generated Prompt Successfully
+        <StatusButton
+          status="success"
+          className="bg-green-500 hover:bg-green-600 text-white w-full transition-all duration-200"
+        >
+          Prompt Generated
         </StatusButton>
       ) : (
         <>
           {status === "error" ? (
-            <StatusButton status="error" className="flex w-full">
+            <StatusButton
+              status="error"
+              className="w-full bg-red-500 hover:bg-red-600 text-white transition-all duration-200"
+            >
               Error Generating Prompt
             </StatusButton>
           ) : (
-            <StatusButton status="idle" className="flex w-full">
-              Generate Prompt
+            <StatusButton
+              status="idle"
+              className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-200"
+            >
+              Generate Detailed Prompt'
             </StatusButton>
           )}
         </>
@@ -93,8 +114,10 @@ function FormButton({
 
 export default function PromptInputForm({
   setGeneratePrompt,
+  ref,
 }: {
   setGeneratePrompt: React.Dispatch<React.SetStateAction<string | undefined>>;
+  ref: React.RefObject<HTMLTextAreaElement>;
 }) {
   const [lastResult, action] = useFormState(promptaction, undefined);
   const [form, fields] = useForm({
@@ -129,15 +152,9 @@ export default function PromptInputForm({
   return (
     <form action={action} {...getFormProps(form)}>
       <div className="space-y-2 mb-4">
-        <label
-          htmlFor="user-input"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Enter your initial prompt:
-        </label>
         <TextareaField
-          className="flex min-w-full md:min-w-[400px] lg:min-w-[600px] xl:min-w-[600px]
-          "
+          ref={ref}
+          className="flex min-w-full md:min-w-[400px] lg:min-w-[600px] xl:min-w-[600px]"
           labelProps={{ htmlFor: "prompt" }}
           textareaProps={{ id: "prompt", name: "prompt" }}
           {...getInputProps(fields.prompt, { type: "text" })}

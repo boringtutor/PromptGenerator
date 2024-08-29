@@ -1,4 +1,4 @@
-** free version just for open source **
+** free version 0.0.1 just for open source **
 
 - [x] create input Form Field using conform/nextjs and zod
 - [x] create api routs for example generation,context generation,detail prompt generation.
@@ -10,7 +10,19 @@
 - [x] fix the json api issues
 - [x] add open ai api key feature
 - [x] add docker support
+
+** Version 0.0.2 free for open source **
+
+- [ ] redising the app
+- [ ] bring text area into focus on get started click
 - [ ] make screen recording for the app an post it on tiktok and also on readme.md to show how it works
+
+  ** free Version 1.0.0 for open source **
+
+- [ ] bring lama model to the app
+- [ ] give option to use aws lama model
+- [ ] give option to use lama model locally
+- [ ] give option to down free model and add it to the app
 
 ** paid version on vercel **
 
