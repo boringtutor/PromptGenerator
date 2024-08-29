@@ -115,7 +115,7 @@ export default function Home() {
           </h3>
           <p
             className="whitespace-pre-wrap"
-            dangerouslySetInnerHTML={{ __html: formatPrompt(generatePrompt) }}
+            // dangerouslySetInnerHTML={{ __html: formatPrompt(generatePrompt) }}
           >
             {generatePrompt}
           </p>
