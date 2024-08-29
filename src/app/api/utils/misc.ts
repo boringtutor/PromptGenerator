@@ -118,3 +118,48 @@ export async function generateDetailPromptFromOpenAi(
     return "Error generating detailed prompt. Please try again later.";
   }
 }
+
+export async function generateTestCasesFromOpenAi(
+  generatedPrompt: string
+): Promise<string | null> {
+  try {
+    const result = await myOpenAI.chat.completions.create({
+      model: "gpt-4-0613",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an expert in evaluating and testing prompts. Your task is to generate comprehensive test cases for a given prompt to ensure its quality and effectiveness.",
+        },
+        {
+          role: "user",
+          content: `Generate test cases for the following prompt:
+
+          "${generatedPrompt}"
+
+          Your test cases should:
+          1. Cover different aspects of the prompt
+          2. Include edge cases and potential misinterpretations
+          3. Test the clarity and specificity of the prompt
+          4. Evaluate the prompt's ability to generate diverse responses
+          5. Check if the prompt achieves its intended purpose
+
+          Please provide at least 5 test cases, each with:
+          - A brief description of what the test case is checking
+          - The expected outcome or type of response
+          - Any potential issues or improvements identified
+
+          Format your response as a JSON array of test case objects.`,
+        },
+      ],
+      temperature: 0.7,
+      max_tokens: 2500,
+    });
+
+    const content = JSON.parse(result.choices[0].message.content || "[]");
+    return content;
+  } catch (error) {
+    console.error("Error in generateTestCasesFromOpenAi:", error);
+    return null;
+  }
+}
