@@ -8,13 +8,14 @@
 - [x] change app metadata and app icon
 - [x] add github actions for ci/cd pipeline
 - [x] fix the json api issues
+- [x] add open ai api key feature
+- [x] add docker support
 - [ ] make screen recording for the app an post it on tiktok and also on readme.md to show how it works
-- [ ] add docker support
-- [ ] add dashboard for managing everythig
-- [ ] add prompt validation by implementing the rating system. from users perspective.
 
 ** paid version on vercel **
 
+- [ ] add dashboard for managing everythig
+- [ ] add prompt validation by implementing the rating system. from users perspective.
 - [ ] put this in production in vercel.
 - [ ] rate limiting
 - [ ] add analytics

@@ -62,12 +62,10 @@ AI Prompt Generator is an open-source tool designed to help users create detaile
    Create a `.env.local` file in the root directory and add the following:
 
    ```
-   OPENAI_API_KEY=your_openai_api_key
-   OPENAI_PROJECT_ID=your_openai_project_id
-   OPENAI_ORGANIZATION_ID=your_openai_organization_id
+      OPENAI_API_KEY=your_openai_api_key
    ```
 
-   Replace `your_openai_api_key`, `your_openai_project_id`, and `your_openai_organization_id` with your actual OpenAI credentials. You can obtain these from your OpenAI account dashboard.
+   Replace `your_openai_api_key` with your actual OpenAI credentials. You can obtain these from your OpenAI account dashboard.
 
    Note: Never commit your `.env.local` file to version control. It's already included in the `.gitignore` file.
 
