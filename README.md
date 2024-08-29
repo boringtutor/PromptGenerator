@@ -104,9 +104,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Roadmap
 
-- [ ] Add copy to clipboard button
-- [ ] Implement GitHub Actions for CI/CD pipeline
-- [ ] Add Docker support
+- [x] Add copy to clipboard button
+- [x] Implement GitHub Actions for CI/CD pipeline
+- [x] Add Docker support
 - [ ] Create a dashboard for managing everything
 - [ ] Implement a rating system for prompt validation
 - [ ] Develop a paid version with additional features (auth, analytics, etc.)
