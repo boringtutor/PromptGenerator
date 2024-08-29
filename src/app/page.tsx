@@ -1,24 +1,59 @@
 "use client";
 import PromptInputForm from "@/components/form";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
 } from "@/components/ui/card";
+
+import {
+  Wand2,
+  Copy,
+  ArrowRight,
+  ArrowDown,
+  ArrowUp,
+  ThumbsUp,
+  ThumbsDown,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { CopyToClipBoard } from "@/components/ui/copyToClipBoard";
-import { toast } from "@/components/ui/use-toast";
 import { showToast } from "@/lib/utils";
+import Background from "@/components/background";
 
 export default function Home() {
   const [generatePrompt, setGeneratePrompt] = useState<string | undefined>(
     undefined
   );
   const [feedback, setFeedback] = useState<string | null>(null);
+
+  const [inputPrompt, setInputPrompt] = useState("");
+  const [generatedPrompt, setGeneratedPrompt] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [showGenerator, setShowGenerator] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(generatedPrompt);
+    showToast({
+      title: "Copied to clipboard",
+      description: "The generated prompt has been copied to your clipboard.",
+    });
+  };
 
   useEffect(() => {
     console.log(generatePrompt);
@@ -30,106 +65,223 @@ export default function Home() {
     }
   }, [generatePrompt]);
 
+  const handleGetStarted = () => {
+    setShowGenerator(true);
+    setTimeout(() => {
+      console.log(textareaRef.current);
+      console.log("bringing text area into focus");
+      textareaRef.current?.focus();
+    }, 100);
+  };
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const scrollToGenerator = () => {
+    const generatorElement = document.getElementById("generator");
+    if (generatorElement) {
+      generatorElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const handleFeedback = (isUseful: boolean) => {
     if (isUseful) {
       showToast({
-        title: "Glad you found it useful!",
-        description:
-          "We're glad you found the prompt useful. Your feedback helps us improve our service.",
+        title: "Thank you for your feedback!",
+        description: `You ${
+          isUseful ? "liked" : "disliked"
+        } this prompt. We'll use this to improve our generator.`,
       });
     } else {
       // setGeneratePrompt(undefined);
       // setFeedback(null);
+      showToast({
+        title: "Thank you for your feedback!",
+        description: `You ${
+          isUseful ? "liked" : "disliked"
+        } this prompt. We'll use this to improve our generator.`,
+      });
     }
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center w-full relative ">
-      <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-primary to-primary-foreground">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-white">
-                Elevate Your Ideas with AI-Powered Prompts
-              </h1>
-              <p className="mx-auto max-w-[700px] text-zinc-200 md:text-xl">
-                Transform simple concepts into detailed, thought-provoking
-                prompts. Unleash your creativity and explore new depths in your
-                writing and brainstorming.
-              </p>
-            </div>
-            <div className="space-x-4">
-              <Button
-                className="hover:bg-white hover:text-primary hover:border-primary hover:border-2"
-                onClick={() => {
-                  document
-                    .getElementById("prompt-generator")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                Get Started
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="ml-2 h-4 w-4"
-                >
-                  <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
-                  <path d="M20 3v4" />
-                  <path d="M22 5h-4" />
-                  <path d="M4 17v2" />
-                  <path d="M5 18H3" />
-                </svg>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section id="prompt-generator" className="flex-grow bg-background py-12">
-        <Card className="w-full max-w-2xl mx-auto md:min-w-[400px] lg:min-w-[600px] xl:min-w-[800px]">
-          <CardHeader>
-            <CardTitle>Detailed Prompt Generator</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <PromptInputForm setGeneratePrompt={setGeneratePrompt} />
-          </CardContent>
-        </Card>
-      </section>
-
-      {generatePrompt && (
-        <div
-          id="custom-generated-prompt"
-          className="mt-6 p-4 border rounded-md bg-muted"
-        >
-          <div className="flex justify-end mb-2">
-            <CopyToClipBoard message="Copied to clipboard!" />
-          </div>
-          <h3 className="text-lg font-semibold mb-2">
-            Generated Detailed Prompt:
-          </h3>
-          <p
-            className="whitespace-pre-wrap"
-            // dangerouslySetInnerHTML={{ __html: formatPrompt(generatePrompt) }}
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white relative overflow-hidden">
+      <Background />
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <header className="py-16 sm:py-24">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center"
           >
-            {generatePrompt}
-          </p>
-        </div>
-      )}
-    </main>
-  );
-}
+            <h1 className="text-4xl sm:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+              AI Prompt Generator
+            </h1>
+            <p className="text-xl sm:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+              Elevate your AI interactions with expertly crafted prompts. Our
+              tool transforms your ideas into detailed, GPT-4 optimized
+              instructions in seconds.
+            </p>
+            <Button
+              onClick={handleGetStarted}
+              size="lg"
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-200"
+            >
+              Get Started <ArrowRight className="ml-2" />
+            </Button>
+          </motion.div>
+        </header>
 
-function formatPrompt(prompt: string): string {
-  return prompt
-    .replace(/\n\n/g, "<br/><br/>")
-    .replace(/\n/g, "<br/>")
-    .replace(/(Prompt:)/g, "<strong>$1</strong>")
-    .replace(/(Your response should:)/g, "<strong>$1</strong>")
-    .replace(/(\d+\.)/g, "<br/><strong>$1</strong>");
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="flex justify-center mb-8"
+        >
+          <Button
+            variant="ghost"
+            size="lg"
+            className="text-purple-400 hover:text-purple-300 hover:bg-purple-400 hover:pt-2 hover:bg-opacity-20 transition-all duration-200"
+            onClick={scrollToGenerator}
+          >
+            <ArrowDown className="h-8 w-8 animate-bounce" />
+            <span className="sr-only">Scroll down</span>
+          </Button>
+        </motion.div>
+
+        {!showGenerator && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="py-16"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm p-6 rounded-lg">
+                <h3 className="text-xl font-semibold mb-4 text-purple-400">
+                  1. Enter Your Idea
+                </h3>
+                <p className="text-gray-300">
+                  Start with a simple concept or question. Our AI will expand on
+                  it.
+                </p>
+              </div>
+              <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm p-6 rounded-lg">
+                <h3 className="text-xl font-semibold mb-4 text-purple-400">
+                  2. AI Enhancement
+                </h3>
+                <p className="text-gray-300">
+                  Our advanced AI processes your input, adding depth and
+                  structure.
+                </p>
+              </div>
+              <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm p-6 rounded-lg">
+                <h3 className="text-xl font-semibold mb-4 text-purple-400">
+                  3. Optimized Output
+                </h3>
+                <p className="text-gray-300">
+                  Receive a comprehensive, GPT-4 ready prompt to power your
+                  projects.
+                </p>
+              </div>
+            </div>
+          </motion.section>
+        )}
+        {showGenerator && (
+          <motion.div
+            id="generator"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="py-16"
+          >
+            <Card className="bg-gray-800 bg-opacity-50 backdrop-blur-sm border-gray-700">
+              <CardHeader>
+                <CardTitle className="text-2xl text-purple-400">
+                  Generate Your Prompt
+                </CardTitle>
+                <CardDescription className="text-gray-400">
+                  Enter your initial idea and let AI do the rest.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <PromptInputForm
+                  setGeneratePrompt={setGeneratePrompt}
+                  ref={textareaRef}
+                />
+              </CardContent>
+              {generatePrompt && (
+                <CardFooter id="custom-generated-prompt">
+                  <motion.div
+                    className="mt-4 w-full"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="text-lg font-semibold text-purple-400">
+                        Generated Prompt:
+                      </h3>
+                      <div className="flex space-x-2">
+                        <Button
+                          onClick={() => handleFeedback(true)}
+                          variant="outline"
+                          size="sm"
+                          className="text-green-400 border-green-400 hover:bg-green-400 hover:text-white"
+                        >
+                          <ThumbsUp className="h-4 w-4 mr-2" />
+                          <span className="sr-only">Like this prompt</span>
+                        </Button>
+                        <Button
+                          onClick={() => handleFeedback(false)}
+                          variant="outline"
+                          size="sm"
+                          className="text-red-400 border-red-400 hover:bg-red-400 hover:text-white"
+                        >
+                          <ThumbsDown className="h-4 w-4 mr-2" />
+                          <span className="sr-only">Dislike this prompt</span>
+                        </Button>
+                        <Button
+                          onClick={copyToClipboard}
+                          variant="outline"
+                          size="sm"
+                          className="text-gray-400 border-gray-600 hover:bg-gray-700"
+                        >
+                          <Copy className="h-4 w-4 mr-2" /> Copy
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="bg-gray-700 bg-opacity-50 backdrop-blur-sm p-4 rounded-md whitespace-pre-wrap text-gray-300 border border-gray-600">
+                      {generatePrompt}
+                    </div>
+                  </motion.div>
+                </CardFooter>
+              )}
+            </Card>
+          </motion.div>
+        )}
+      </div>
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bottom-8 right-8"
+          >
+            <Button
+              variant="secondary"
+              size="icon"
+              onClick={scrollToTop}
+              className="bg-purple-500 hover:bg-purple-600 hover:pt-2 text-white rounded-full shadow-lg"
+            >
+              <ArrowUp className="h-6 w-6 animate-bounce" />
+              <span className="sr-only">Scroll to top</span>
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
 }
