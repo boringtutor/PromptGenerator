@@ -119,8 +119,11 @@ export default function Home() {
             </h1>
             <p className="text-xl sm:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
               Elevate your AI interactions with expertly crafted prompts. Our
-              tool transforms your ideas into detailed, GPT-4 optimized
-              instructions in seconds.
+              tool transforms your ideas into detailed,
+              <span className="text-2xl mx-2 sm:text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+                GPT-4
+              </span>
+              optimized instructions in seconds.
             </p>
             <Button
               onClick={handleGetStarted}
