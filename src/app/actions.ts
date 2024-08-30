@@ -35,19 +35,24 @@ export async function promptaction(
   }
 
   // // Extract the prompt topic from the submission
-  // const topic = submission.value.prompt;
+  const topic = submission.value.prompt;
 
-  // // Generate example and context based on the topic
-  // let example: unknown = await generateExample(topic);
-  // let context: unknown = await generateContext(topic);
+  // Generate example and context based on the topic
+  let example: unknown = await generateExample(topic);
+  let context: unknown = await generateContext(topic);
 
-  // // Convert example and context to JSON strings
-  // example = JSON.stringify(example);
-  // context = JSON.stringify(context);
+  // Convert example and context to JSON strings
+  example = JSON.stringify(example);
+  context = JSON.stringify(context);
 
-  // // Generate a detailed prompt using the example and context
-  // let detail = await generateDetailedPrompt(example, context, topic);
-  const detail = JSON.stringify(MockPrompt);
+  // Generate a detailed prompt using the example and context
+  const detail = await generateDetailedPrompt(example, context, topic);
+
+  /**NOTE: this line is for testing the app without using the openai api
+   * coment the other steps and uncomment this line for testing purposes
+   **/
+
+  // const detail = JSON.stringify(MockPrompt);
 
   //   Return the successful response
   return {
@@ -57,6 +62,10 @@ export async function promptaction(
   };
 }
 
+/**
+ * Mock prompt for testing purposes
+ * send this from the actions when testing
+ */
 const MockPrompt = `
 {
   "prompt": "Describe the impact of climate change on polar bears.",
