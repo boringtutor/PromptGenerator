@@ -13,7 +13,7 @@
 
 ** Version 0.0.2 free for open source **
 
-- [ ] redising the app
+- [x] redising the app
 - [ ] bring text area into focus on get started click
 - [ ] make screen recording for the app an post it on tiktok and also on readme.md to show how it works
 
